@@ -1,5 +1,5 @@
 from django.contrib import admin
-from webapp.models import Poll, Choice
+from webapp.models import Poll, Choice, Answer
 
 
 class PollAdmin(admin.ModelAdmin):
@@ -17,5 +17,14 @@ class ChoiceAdmin(admin.ModelAdmin):
     fields = ['answer']
 
 
+class AnswerAdmin(admin.ModelAdmin):
+    list_display = ['poll', 'choices', 'created_at']
+    list_filter = ['poll']
+    search_fields = ['poll']
+    fields = ['poll', 'choices', 'created_at']
+    readonly_fields = ['created_at']
+
+
 admin.site.register(Poll)
 admin.site.register(Choice)
+admin.site.register(Answer)

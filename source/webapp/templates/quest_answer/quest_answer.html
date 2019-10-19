@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ question.question }}{% endblock %}
+
+{% block menu %}
+{#    <li><a href="{% url "question_update" question.pk %}">Edit</a></li>#}
+{#    <li><a href="{% url "question_delete" question.pk %}">Delete</a></li>#}
+{#    <li><a href="#add_answer">Add Answer</a></li>#}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ question.question }}</h1>
+    <p>Created at {{ question.created_at|date:'d.m.Y H:i:s' }}</p>
+    <hr/>
+    <h3>Question: {{  poll.question  }}</h3>
+    {% if is_paginated %}
+        {% include 'partial/pagination.html' %}
+    {% endif %}
+    <div class="comment-list">
+      <form action="{% url "quest_answer" poll.pk %}" method="POST">
+   {% csrf_token %}
+
+    {% for choice in poll.answer.all %}
+        <input type="radio" value="{{ choice.pk }}" id="{{ choice.pk }}" name="answer" style="height: 20px;
+        width: 20px"> {{ choice.answer }}<br>
+        {% endfor %}
+    </div>
+    <input type="submit" value="Select" class="btn btn-primary">
+    </form>
+{% endblock %}

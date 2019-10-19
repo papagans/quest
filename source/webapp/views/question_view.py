@@ -1,9 +1,11 @@
-from webapp.models import Poll, Choice
+from webapp.models import Poll, Answer, Choice
 from django.views.generic import View, ListView, CreateView, DeleteView, UpdateView, DetailView
-from webapp.forms import PollForm, ChoiceForm, QuestAnswerForm
+from webapp.forms import PollForm, ChoiceForm, QuestAnswerForm, AnswerForm
 from django.core.paginator import Paginator
 from django.urls import reverse, reverse_lazy
 from django.shortcuts import get_object_or_404, redirect
+from django.views.generic import TemplateView, View
+from django.shortcuts import get_object_or_404, render, redirect
 
 class IndexView(ListView):
     context_object_name = 'question'
@@ -55,12 +57,39 @@ class QuestionView(DetailView):
         # self.paginate_comments_to_context(answer, context)
         return context
 
-    # def paginate_comments_to_context(self, comments, context):
-    #     paginator = Paginator(comments, 3, 0)
-    #     page_number = self.request.GET.get('page', 1)
-    #     page = paginator.get_page(page_number)
-    #     context['paginator'] = paginator
-    #     context['page_obj'] = page
-    #     context['comments'] = page.object_list
-    #     context['is_paginated'] = page.has_other_pages()
+class QuestionAnswerView(DetailView):
+    template_name = 'quest_answer/quest_answer.html'
+    model = Answer
+    context_object_name = 'answer'
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(object_list=object_list, **kwargs)
+        context['form'] = QuestAnswerForm()
+        answer = context['question'].answer.order_by()
+        context['answer'] = answer
+            # self.paginate_comments_to_context(answer, context)
+        return context
+
+
+class AnswersView(View):
+    # def get(self, request, *args, **kwargs):
+    #     poll = Poll.objects.get(id=kwargs['pk'])
+    #     context = {'poll': poll}
+    #     return render(request, 'quest_answer/quest_answer.html', context)
+
+    def get(self, request, *args, **kwargs):
+        poll = get_object_or_404(Poll, pk=kwargs['pk'])
+        answer = poll.answer.all()
+        context = {
+            'poll': poll,
+            'answer': answer
+        }
+        return render(request, 'quest_answer/quest_answer.html', context)
+
+    def post(self, request, *args, **kwargs):
+        pk = request.POST['answer']
+        answer = get_object_or_404(Choice, pk=pk)
+        print(answer)
+        poll = get_object_or_404(Poll, pk=kwargs['pk'])
+        Answer.objects.create(choices=answer, poll=poll)
+        return redirect('index')

@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from webapp.views import IndexView,  QuestionCreateView, QuestionDeleteView, QuestionUpdateView, QuestionView, \
-                    AnswerView, AnswerCreateView, AnswerDeleteView, AnswerUpdateView, AnswerForQuestionCreateView
+     AnswerCreateView, AnswerDeleteView, AnswerUpdateView, AnswerForQuestionCreateView, AnswersView
 
 
 urlpatterns = [
@@ -29,5 +29,6 @@ urlpatterns = [
     path('answer/add/', AnswerCreateView.as_view(), name='answer_add'),
     path('answer/<int:pk>/edit/', AnswerUpdateView.as_view(), name='answer_update'),
     path('answer/<int:pk>/delete/', AnswerDeleteView.as_view(), name='answer_delete'),
-    path('article/<int:pk>/add-comment/', AnswerForQuestionCreateView.as_view(), name='question_answer_create')
+    path('answer/<int:pk>/add-answer/', AnswerForQuestionCreateView.as_view(), name='question_answer_create'),
+    path('answer/<int:pk>/add-quest_answer/', AnswersView.as_view(), name='quest_answer')
 ]
