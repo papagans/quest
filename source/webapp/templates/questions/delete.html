@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Delete Question{% endblock %}
+
+{% block menu %}
+    <li><a href="{% url 'question_view' question.pk %}">View</a></li>
+{% endblock %}
+
+{% block content %}
+    <h1>Are you sure want to delete Question {{ question }}?</h1>
+    <form method="POST" action="{% url 'question_delete' question.pk %}" class="text-center">
+        {% csrf_token %}
+        <p><input type="submit" value="Confirm"></p>
+        <p><a href="{% url 'question_view' question.pk %}">Cancel</a></p>
+    </form>
+{% endblock %}

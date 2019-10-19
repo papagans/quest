@@ -15,7 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from webapp.views import IndexView,  QuestionCreateView, QuestionDeleteView, QuestionUpdateView, QuestionView, \
+                    AnswerView, AnswerCreateView, AnswerDeleteView, AnswerUpdateView
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', IndexView.as_view(), name='index'),
+    path('question/<int:pk>/', QuestionView.as_view(), name='question_view'),
+    path('question/add/', QuestionCreateView.as_view(), name='add_question'),
+    path('question/<int:pk>/edit/', QuestionUpdateView.as_view(), name='question_update'),
+    path('question/<int:pk>/delete/', QuestionDeleteView.as_view(), name='question_delete'),
 ]
