@@ -5,13 +5,12 @@
 {% block menu %}
     <li><a href="{% url "question_update" question.pk %}">Edit</a></li>
     <li><a href="{% url "question_delete" question.pk %}">Delete</a></li>
-{#    <li><a href="#add_comment">Add Comment</a></li>#}
+    <li><a href="#add_answer">Add Answer</a></li>
 {% endblock %}
 
 {% block content %}
     <h1>{{ question.question }}</h1>
     <p>Created at {{ question.created_at|date:'d.m.Y H:i:s' }}</p>
-{#    <div class="pre">{{ article.text }}</div>#}
     <hr/>
     <h3>Answers:</h3>
     {% if is_paginated %}
@@ -20,10 +19,10 @@
     <div class="comment-list">
         {% for ans in answer %}
             <div class="comment">
-                <p>{{ ans.answer }}
+                <p>{{ ans }}
                 <p class="comment-links">
-                    <a href="{% url 'question_update' question.pk %}">Edit</a>
-                    <a href="{% url 'question_delete' question.pk %}">Delete</a>
+                    <a href="{% url 'answer_update' ans.pk %}">Edit</a>
+                    <a href="{% url 'answer_delete' ans.pk %}">Delete</a>
                 </p>
             </div>
         {% empty %}
@@ -33,7 +32,7 @@
     {% if is_paginated %}
         {% include 'partial/pagination.html' %}
     {% endif %}
-{#    <form action="{% url 'article_comment_create' article.pk %}" method="POST" id="add_comment">#}
-{#        {% include 'partial/form.html' with button_text='Add' %}#}
-{#    </form>#}
+    <form action="{% url 'question_answer_create' question.pk %}" method="POST" id="add_answer">
+        {% include 'partial/form.html' with button_text='Add' %}
+    </form>
 {% endblock %}

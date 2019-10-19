@@ -11,3 +11,9 @@ class ChoiceForm(forms.ModelForm):
     class Meta:
         model = Choice
         exclude = ['created_at']
+
+
+class QuestAnswerForm(forms.ModelForm):
+    class Meta:
+        model = Choice
+        fields = ['answer']
