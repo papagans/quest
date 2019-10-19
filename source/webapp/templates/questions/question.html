@@ -5,6 +5,7 @@
 {% block menu %}
     <li><a href="{% url "question_update" question.pk %}">Edit</a></li>
     <li><a href="{% url "question_delete" question.pk %}">Delete</a></li>
+    <a href="{% url 'quest_answer' question.pk %}">Answer Now!</a>
     <li><a href="#add_answer">Add Answer</a></li>
 {% endblock %}
 
@@ -23,6 +24,7 @@
                 <p class="comment-links">
                     <a href="{% url 'answer_update' ans.pk %}">Edit</a>
                     <a href="{% url 'answer_delete' ans.pk %}">Delete</a>
+
                 </p>
             </div>
         {% empty %}

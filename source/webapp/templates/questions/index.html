@@ -12,14 +12,11 @@
     <hr/>
     {% for quest in question %}
         <h2>{{ quest.question }}</h2>
-{#        Created by {{ article.author }} ({{ article.category|default_if_none:'Без категории' }})#}
         <p>
             Created at {{ quest.created_at|date:'d.m.Y H:i:s' }}</p>
         <p>
             <a href="{% url 'question_view' quest.pk %}">More...</a>
             <a href="{% url 'quest_answer' quest.pk %}">Answer Now!</a>
-{#            <a href="{% url 'article_update' article.pk %}">Edit</a>#}
-{#            <a href="{% url "article_delete" article.pk %}">Delete</a>#}
         </p>
         <hr/>
     {% endfor %}
